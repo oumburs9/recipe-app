@@ -1,13 +1,15 @@
-import Tabs from "./components/Tabs"
+
+import Header from "./components/Header";
+import HeaderTabs from "./components/HeaderTab";
+
 
 function App() {
-  
 
   return (
     <>
-    <div className="min-h-min w-3/4 mx-auto my-10">
-
-        <Tabs/>
+    <div className="bg-[#1A1A1A] min-h-screen min-w-full">
+        <Header/>
+        <HeaderTabs/>
     </div>
   
 

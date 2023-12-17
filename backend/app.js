@@ -1,16 +1,16 @@
 const express = require('express');
-const mongoose = require('./db/mongoose'); // Import the database connection
+const mongoose = require('./db/mongoose'); 
 const taskRoutes = require('./routes/taskRoutes');
 const config = require('./config/config');
+const cors = require('cors');
 
 const app = express();
 
 
 app.use(express.json());
+app.use(cors());
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!');
-// });
+
 
 // Use taskRoutes for all routes related to tasks
 app.use('/api', taskRoutes);

@@ -1,30 +1,52 @@
 const Task = require('../models/taskModel');
 
-exports.getTasks = async (req, res) => {
-    try {
-      const { filter, page = 1, limit = 10 } = req.query;
-  
-      // Build the query based on the filter parameter
-      const query = filter ? { name: { $regex: filter, $options: 'i' } } : {};
-  
-      // Use mongoose's skip() and limit() for pagination
-      const tasks = await Task.find(query)
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit));
-  
-      res.status(200).json(tasks);
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ message: error.message });
-    }
-  };
-  
-exports.createTask = async (req, res) => {
+const getTasks = async (req, res) => {
   try {
-    const task = await Task.create(req.body);
-    res.status(200).json(task);
+    const tasks = await Task.find();
+    res.json(tasks);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: error.message });
   }
+};
+
+const createTask = async (req, res) => {
+  const { name,todoDate } = req.body;
+
+  try {
+    const newTask = new Task({ name ,todoDate});
+    const savedTask = await newTask.save();
+    res.json(savedTask);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateTask = async (req, res) => {
+  const { taskId } = req.params;
+  const updatedTask = req.body;
+
+  try {
+    const result = await Task.findByIdAndUpdate(taskId, updatedTask, { new: true });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteTask = async (req, res) => {
+  const { taskId } = req.params;
+
+  try {
+    await Task.findByIdAndDelete(taskId);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getTasks,
+  createTask,
+  updateTask,
+  deleteTask,
 };
