@@ -5,10 +5,11 @@ import Modal from "./modal";
 const Header = () => {
   return (
     <nav className="bg-black border-gray-200 dark:bg-gray-900">
-      <div className="mx-48 min-w-fit  flex flex-wrap items-center justify-between p-4 pt-2">
+      <div className="mx-48 max-xl:mx-32 max-lg:mx-20 max-md:mx-16 max-sm:mx-6 min-w-fit flex flex-wrap items-center justify-between pt-2 pb-4">
+
         <a
           href="#"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
+          className="flex items-center  rtl:space-x-reverse"
         >
           <img
             src= {Logo}
@@ -16,14 +17,15 @@ const Header = () => {
             alt="Flowbite Logo"
           />
         </a>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex md:order-2  md:space-x-0 rtl:space-x-reverse">
          < Modal/>
         </div>
         
         
       </div>
 
-      <div className="pb-3 mx-56">
+      <div className="pb-3 mx-56 max-xl:mx-40 max-lg:mx-24 max-md:mx-20 max-sm:mx-10">
+      
       <SearchInput/>
       </div>
     </nav>

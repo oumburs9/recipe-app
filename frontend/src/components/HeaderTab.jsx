@@ -13,7 +13,7 @@ const HeaderTabs = () => {
     // Filter tasks based on the current date
     const filteredTasks = tasks.filter((task) => {
       const today = new Date();
-      const taskDate = new Date(task.date);
+      const taskDate = new Date(task.todoDate);
   
       return (
         today.getFullYear() === taskDate.getFullYear() &&
@@ -21,9 +21,16 @@ const HeaderTabs = () => {
         today.getDate() === taskDate.getDate()
       );
     });
+    
+    const inactiveTasks = tasks
+    .filter((task) => !task.active);
+
+    const activeTasks = tasks
+    .filter((task) => task.active);
 
   useEffect(() => {
     dispatch(fetchTasks());
+    
   }, [dispatch]);
 
   const [activeTab, setActiveTab] = useState("today");
@@ -98,7 +105,13 @@ const HeaderTabs = () => {
       </div>
 
       <div>
-        <HeaderBadges />
+        <HeaderBadges badges = {
+          [
+            {name: "Today", value: filteredTasks.length},
+            {name: "Active", value: activeTasks.length},
+            {name: "Inactive", value: inactiveTasks.length} 
+        ]
+        }/>
       </div>
 
       <div id="default-tab-content">
@@ -111,8 +124,8 @@ const HeaderTabs = () => {
             role="tabpanel"
             aria-labelledby="today-tab"
           >
-            {/* {filteredTasks.map((task,index) => ( */}
-            {tasks.map((task,index) => (
+            {filteredTasks.map((task,index) => (
+            // {tasks.map((task,index) => (
               <ListCard key={index} data={task} />
             ))}
           </div>
@@ -122,8 +135,7 @@ const HeaderTabs = () => {
             role="tabpanel"
             aria-labelledby="active-tab"
           >
-            {tasks
-              .filter((task) => task.active)
+            {activeTasks
               .map((task,index) => (
                 <ListCard key={index} data={task} />
               ))}
@@ -134,8 +146,7 @@ const HeaderTabs = () => {
             role="tabpanel"
             aria-labelledby="inactive-tab"
           >
-            {tasks
-              .filter((task) => !task.active)
+            {inactiveTasks
               .map((task,index) => (
                 <ListCard key={index} data={task} />
               ))}
